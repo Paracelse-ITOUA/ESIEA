@@ -5,3 +5,4 @@ feature/NOM
 - Conflit créer par la modification simultané d'un fichier par deux utilisateurs différents sur 2 branches, confilt résolu en éditant le 
 fichier et en supprimant les marqueurs
 MAJOR.MINOR.PATCH : MAJOR = breaking change, MINOR = feature
+test
