@@ -1,2 +1,3 @@
 Résolution du bug
 commit2
+commit3
