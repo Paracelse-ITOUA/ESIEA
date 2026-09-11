@@ -6,3 +6,4 @@ feature/NOM
 fichier et en supprimant les marqueurs
 MAJOR.MINOR.PATCH : MAJOR = breaking change, MINOR = feature
 test
+test-2
