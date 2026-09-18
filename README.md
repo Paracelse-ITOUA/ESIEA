@@ -13,7 +13,7 @@ test-3
 
 [![CI](https://github.com/Paracelse-ITOUA/ESIEA/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Paracelse-ITOUA/ESIEA/actions/workflows/ci.yml)
 
-Projet réaliséen septembre 2026.
+Projet réalisé en septembre 2026.
 
 ## Application
 
