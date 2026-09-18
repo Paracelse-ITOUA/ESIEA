@@ -1,0 +1,29 @@
+services:
+  web:
+    build:
+      context: ./starter-app
+      dockerfile: Dockerfile
+    container_name: esiea-web
+    ports:
+      - "5000:5000"
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: esiea-redis
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+volumes:
+  redis-data:
+
+networks:
+  app-network:
