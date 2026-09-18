@@ -1,4 +1,4 @@
-# Projet DevOps - Groupe 6 
+# Projet 1 DevOps - Groupe 6 
  - Convention de nommage :
 feature/NOM
 
@@ -8,3 +8,33 @@ MAJOR.MINOR.PATCH : MAJOR = breaking change, MINOR = feature
 test
 test-2
 test-3
+
+# Projet 2 DevOps - SOlo
+
+[![CI](https://github.com/Paracelse-ITOUA/ESIEA/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Paracelse-ITOUA/ESIEA/actions/workflows/ci.yml)
+
+Projet réaliséen septembre 2026.
+
+## Application
+
+L'application de démonstration se trouve dans `starter-app/`.
+
+Elle utilise :
+
+- Python
+- Flask
+- pytest
+- pytest-cov
+- flake8
+
+## Tests locaux
+
+Créer et activer un environnement virtuel :
+
+```bash
+cd starter-app
+
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip install -r requirements.txt
