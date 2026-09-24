@@ -41,3 +41,12 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 pip install -r requirements.txt
+
+# Conteneurisation Docker
+
+## Construction de l'image
+
+L'application Flask est construite avec un Dockerfile multi-stage.
+
+```bash
+docker build -t esiea-flask:multistage ./starter-app
