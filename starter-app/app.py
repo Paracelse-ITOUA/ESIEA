@@ -25,6 +25,7 @@ def get_redis_client():
         decode_responses=True,
     )
 
+
 @app.route("/health")
 def health():
     try:
