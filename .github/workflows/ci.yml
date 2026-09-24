@@ -49,6 +49,16 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
 
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+
+    env:
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+
     strategy:
       matrix:
         python-version:
