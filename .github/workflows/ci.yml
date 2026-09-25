@@ -117,9 +117,18 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
+    deploy:
+      name: deploy
+      needs: build-and-push
+      runs-on: ubuntu-latest
+      environment: production
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Run deployment
+        run: ./deploy/deploy.sh
 
       - name: Login to Docker Hub
         env:
