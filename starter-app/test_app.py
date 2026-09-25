@@ -22,4 +22,4 @@ def test_status_endpoint():
 
     assert response.status_code == 200
     assert response.get_json()["service"] == "projet-devops-groupe-demo"
-    assert response.get_json()["version"] == "1.0"
+    assert response.get_json()["version"] == "1.1"
