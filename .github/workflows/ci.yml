@@ -111,7 +111,7 @@ jobs:
             starter-app/htmlcov/
           if-no-files-found: warn
 
-    build-and-push:
+  build-and-push:
     name: build-and-push
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
