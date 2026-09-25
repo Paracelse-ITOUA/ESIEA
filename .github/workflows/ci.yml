@@ -111,12 +111,13 @@ jobs:
             starter-app/htmlcov/
           if-no-files-found: warn
 
-  build-and-push:
+    build-and-push:
     name: build-and-push
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     steps:
       - name: Checkout repository
@@ -153,12 +154,11 @@ jobs:
       environment: production
 >>>>>>> 3944d42 (fix/syntaxe modif ci.yml)
 
+=======
+>>>>>>> 8ad4fec (fix/syntaxe)
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Run deployment
-        run: ./deploy/deploy.sh
 
       - name: Login to Docker Hub
         env:
@@ -166,9 +166,8 @@ jobs:
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         run: |
           printf '%s' "$DOCKERHUB_TOKEN" | docker login docker.io \
-             -u "$DOCKERHUB_USERNAME" \
-             --password-stdin
-
+            -u "$DOCKERHUB_USERNAME" \
+            --password-stdin
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
@@ -177,4 +176,17 @@ jobs:
           push: true
           tags: |
             pazdocker90/esiea-repo:${{ github.sha }}
-            pazdocker90/esiea-repo:latest    
+            pazdocker90/esiea-repo:latest
+
+  deploy:
+    name: deploy
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run deployment
+        run: ./deploy/deploy.sh
