@@ -188,8 +188,13 @@ jobs:
     environment: production
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Run deployment
-        run: ./deploy/deploy.sh
+    - name: Start initial blue environment
+      run: |
+        docker compose --profile blue up -d redis app-blue
+        docker compose up -d nginx
+
+    - name: Run deployment
+      run: ./deploy/deploy.sh
