@@ -1,10 +1,22 @@
 import os
+import time
 
 import redis
 from flask import Flask, Response, jsonify, request
-from prometheus_client import CONTENT_TYPE_LATEST, Counter, generate_latest
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    Counter,
+    Histogram,
+    generate_latest,
+)
 
 app = Flask(__name__)
+
+REQUEST_DURATION = Histogram(
+    "http_request_duration_seconds",
+    "Duree de traitement d'une requete HTTP, en secondes",
+    ["method", "endpoint"],
+)
 
 REQUEST_COUNT = Counter(
     "http_requests_total",
@@ -35,18 +47,29 @@ def get_redis_client():
     )
 
 
+@app.before_request
+def start_timer():
+    request._metrics_start = time.perf_counter()
+
+
 @app.after_request
-def record_request_count(response):
+def record_metrics(response):
     if request.path == "/metrics":
         return response
 
     endpoint = request.url_rule.rule if request.url_rule else "unmatched"
+    duration = time.perf_counter() - request._metrics_start
 
     REQUEST_COUNT.labels(
         method=request.method,
         endpoint=endpoint,
         status=response.status_code,
     ).inc()
+
+    REQUEST_DURATION.labels(
+        method=request.method,
+        endpoint=endpoint,
+    ).observe(duration)
 
     return response
 
