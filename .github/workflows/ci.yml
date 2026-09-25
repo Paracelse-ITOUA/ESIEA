@@ -146,3 +146,16 @@ jobs:
           tags: |
             pazdocker90/esiea-repo:${{ github.sha }}
             pazdocker90/esiea-repo:latest
+
+    deploy:
+      name: deploy
+      needs: build-and-push
+      runs-on: ubuntu-latest
+      environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run deployment
+        run: ./deploy/deploy.sh
