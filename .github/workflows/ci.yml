@@ -111,12 +111,13 @@ jobs:
             starter-app/htmlcov/
           if-no-files-found: warn
 
-    build-and-push:
+  build-and-push:
     name: build-and-push
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     steps:
@@ -156,6 +157,8 @@ jobs:
 
 =======
 >>>>>>> 8ad4fec (fix/syntaxe)
+=======
+>>>>>>> 42b2f79 (fix/syntaxe ci.yml)
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
