@@ -117,6 +117,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
+<<<<<<< HEAD
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -144,6 +145,13 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     environment: production
+=======
+    deploy:
+      name: deploy
+      needs: build-and-push
+      runs-on: ubuntu-latest
+      environment: production
+>>>>>>> 3944d42 (fix/syntaxe modif ci.yml)
 
     steps:
       - name: Checkout repository
@@ -151,3 +159,22 @@ jobs:
 
       - name: Run deployment
         run: ./deploy/deploy.sh
+
+      - name: Login to Docker Hub
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          printf '%s' "$DOCKERHUB_TOKEN" | docker login docker.io \
+             -u "$DOCKERHUB_USERNAME" \
+             --password-stdin
+
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v7
+        with:
+          context: ./starter-app
+          push: true
+          tags: |
+            pazdocker90/esiea-repo:${{ github.sha }}
+            pazdocker90/esiea-repo:latest    
