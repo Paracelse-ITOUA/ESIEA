@@ -1,9 +1,17 @@
 import os
 
 import redis
-from flask import Flask, jsonify
+from flask import Flask, Response, jsonify, request
+from prometheus_client import CONTENT_TYPE_LATEST, Counter, generate_latest
 
 app = Flask(__name__)
+
+REQUEST_COUNT = Counter(
+    "http_requests_total",
+    "Nombre total de requetes HTTP recues",
+    ["method", "endpoint", "status"],
+)
+
 
 ALERT_THRESHOLD = 25
 
@@ -21,9 +29,33 @@ def sanitize_input(value):
 def get_redis_client():
     """Cree et retourne un client Redis."""
     return redis.Redis(
-        host=os.getenv("REDIS_HOST", "redis"),
+        host=os.getenv("REDIS_HOST", "localhost"),
         port=int(os.getenv("REDIS_PORT", "6379")),
         decode_responses=True,
+    )
+
+
+@app.after_request
+def record_request_count(response):
+    if request.path == "/metrics":
+        return response
+
+    endpoint = request.url_rule.rule if request.url_rule else "unmatched"
+
+    REQUEST_COUNT.labels(
+        method=request.method,
+        endpoint=endpoint,
+        status=response.status_code,
+    ).inc()
+
+    return response
+
+
+@app.route("/metrics")
+def metrics():
+    return Response(
+        generate_latest(),
+        mimetype=CONTENT_TYPE_LATEST,
     )
 
 
